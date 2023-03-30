@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="servicedesc">FIDO2/U2F 安全密钥</string>
+    <string name="connected_to_device_message"><![CDATA[已连接至<br><b>%1$s</b>]]></string>
+    <string name="connecting_to_device_message"><![CDATA[正在绑定<br><b>%1$s</b>…]]></string>
+    <string name="connected_to_device_explanation">现在可以像 USB 安全密钥一样，在远程设备上使用了。\n您可以在手机端上查看帮助信息。</string>
+    <string name="message_key_storage_type_unknown">凭证存储方式：扫描中…</string>
+    <string name="message_key_storage_type_software">凭证存储方式：软件</string>
+    <string name="message_key_storage_type_hardware">凭证存储方式：硬件</string>
+    <string name="status_bluetooth_connecting">正在绑定…</string>
+    <string name="status_bluetooth_connected">已连接</string>
+    <string name="status_bluetooth_tap_and_pair">轻触来配对</string>
+    <string name="status_nfc_explanation">或者贴近带有 NFC 的手机 (在表盘界面也能刷)</string>
+    <string name="status_nfc_not_available">手表不支持 NFC</string>
+    <string name="prompt_single_factor_mode_title">打开无密码模式</string>
+    <string name="preference_single_factor_mode_summary_enable_lock">请先设置锁屏密码</string>
+    <string name="generic_accept">允许</string>
+    <string name="generic_deny">拒绝</string>
+    <string name="prompt_delete_all_data_first_step_message">确定要删除所有凭证吗？\n如果你没有备份过，你会丢失在手表上存储的所有账号。</string>
+    <string name="preference_discoverable_summary_on">手表蓝牙在一分钟内可见</string>
+    <string name="preference_discoverable_summary_off">使其他设备可以搜到手表蓝牙</string>
+    <string name="preference_discoverable_title">蓝牙可见</string>
+    <string name="preference_title">通过蓝牙使用</string>
+    <string name="preference_support_purchased_summary">查看更新内容</string>
+    <string name="preference_log_level_title">日志级别</string>
+</resources>

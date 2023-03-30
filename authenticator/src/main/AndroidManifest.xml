@@ -38,7 +38,8 @@
         <activity
             android:name="me.henneke.wearauthn.ui.main.AuthenticatorActivity"
             android:clearTaskOnLaunch="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,7 +71,8 @@
             android:name="me.henneke.wearauthn.complication.ShortcutComplicationProviderService"
             android:icon="@drawable/ic_launcher_outline"
             android:label="@string/label_complication_device_shortcut"
-            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
             </intent-filter>
@@ -88,7 +90,8 @@
 
         <activity
             android:name="me.henneke.wearauthn.complication.ComplicationConfigActivity"
-            android:label="Config">
+            android:label="Config"
+            android:exported="true">
             <intent-filter>
                 <action android:name="me.henneke.wearauthn.complication.ACTION_COMPLICATION_CONFIG" />
 
@@ -98,7 +101,8 @@
         </activity>
         <activity android:name=".ui.main.ResidentCredentialsList" />
 
-        <service android:name="me.henneke.wearauthn.sync.UnlockComplicationListenerService">
+        <service android:name="me.henneke.wearauthn.sync.UnlockComplicationListenerService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
                 <data
