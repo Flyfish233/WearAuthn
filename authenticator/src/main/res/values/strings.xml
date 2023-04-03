@@ -5,7 +5,7 @@
     <string name="aiddescription">FIDO2/U2F Security Key</string>
     <string name="connected_to_device_message"><![CDATA[Attached to<br><b>%1$s</b>]]></string>
     <string name="connecting_to_device_message"><![CDATA[Attaching to<br><b>%1$s</b>…]]></string>
-    <string name="connected_to_device_explanation">Use as if a USB security key were attached to that device.\nHelp with common issues is available on your phone.</string>
+    <string name="connected_to_device_explanation">Use as if a USB security key were attached to that device. Help with common issues is available on your phone.</string>
     <string name="preference_about_key" translatable="false">preference_about</string>
     <string name="preference_bluetooth_settings_key" translatable="false">preference_bluetooth_settings</string>
     <string name="message_key_storage_type_unknown">Credential storage: Scanning…</string>
@@ -60,7 +60,7 @@
     <string name="preference_about_title">About</string>
     <string name="preference_title">Use via Bluetooth with</string>
     <string name="preference_category_advanced_title">Advanced</string>
-    <string name="preference_category_bluetooth_title" translatable="false">Bluetooth</string>
+    <string name="preference_category_bluetooth_title">Bluetooth</string>
     <string name="credential_management_title_no_credentials">No credentials for passwordless login</string>
     <string name="credential_management_title">Credentials for passwordless login</string>
     <string name="prompt_delete_resident_credential_message">Delete credential for\n%1$s\n?</string>
