@@ -2,7 +2,7 @@
 
 ext.versionMajor = 0
 ext.versionMinor = 9
-ext.versionPatch = 18
+ext.versionPatch = 19
 
 buildscript {
 
