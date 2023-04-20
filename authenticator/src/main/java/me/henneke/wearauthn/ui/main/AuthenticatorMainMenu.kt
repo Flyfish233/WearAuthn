@@ -28,7 +28,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import me.henneke.wearauthn.*
+import me.henneke.wearauthn.LogLevel
+import me.henneke.wearauthn.Logging
+import me.henneke.wearauthn.R
 import me.henneke.wearauthn.bthid.HidDataSender
 import me.henneke.wearauthn.bthid.HidDeviceProfile
 import me.henneke.wearauthn.bthid.canUseAuthenticator
@@ -36,11 +38,14 @@ import me.henneke.wearauthn.bthid.hasCompatibleBondedDevice
 import me.henneke.wearauthn.fido.context.AuthenticatorContext
 import me.henneke.wearauthn.fido.context.armUserVerificationFuse
 import me.henneke.wearauthn.fido.context.getUserVerificationState
+import me.henneke.wearauthn.i
+import me.henneke.wearauthn.isDeveloperModeEnabled
 import me.henneke.wearauthn.sync.UnlockComplicationListenerService
 import me.henneke.wearauthn.ui.ConfirmDeviceCredentialActivity
 import me.henneke.wearauthn.ui.EXTRA_CONFIRM_DEVICE_CREDENTIAL_RECEIVER
 import me.henneke.wearauthn.ui.defaultSharedPreferences
 import me.henneke.wearauthn.ui.openPhoneAppOrListing
+import me.henneke.wearauthn.w
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalUnsignedTypes
@@ -189,6 +194,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                     setSummary(R.string.status_nfc_explanation)
                     setOnPreferenceClickListener { true }
                 }
+
                 false -> {
                     icon = context.getDrawable(R.drawable.ic_btn_settings)
                     isEnabled = true
@@ -196,6 +202,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                     setSummary(R.string.status_nfc_tap_and_enable)
                     onPreferenceClickListener = null
                 }
+
                 null -> {
                     icon = null
                     isEnabled = false
@@ -221,6 +228,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                     createBondedDeviceEntries()
                     discoverableSwitchPreference.isEnabled = true
                 }
+
                 BluetoothAdapter.STATE_OFF, BluetoothAdapter.STATE_TURNING_OFF -> {
                     setSummary(R.string.status_bluetooth_tap_to_enable)
                     setOnPreferenceClickListener {
@@ -232,6 +240,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                     }
                     discoverableSwitchPreference.isEnabled = false
                 }
+
                 BluetoothAdapter.STATE_TURNING_ON -> {
                     summary = null
                     onPreferenceClickListener = null
@@ -254,6 +263,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                         true
                     }
                 }
+
                 else -> {
                     isEnabled = false
                     isChecked = false
@@ -282,6 +292,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                     isChecked = true
                     setSummary(R.string.preference_single_factor_mode_summary_active)
                 }
+
                 false -> {
                     isChecked = false
                     if (AuthenticatorContext.isScreenLockEnabled(context)) {
@@ -328,6 +339,7 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                         setSummary(R.string.preference_single_factor_mode_summary_enable_lock)
                     }
                 }
+
                 null -> {
                     isEnabled = false
                     isChecked = false
@@ -455,15 +467,18 @@ class AuthenticatorMainMenu : PreferenceFragment(), CoroutineScope, Logging {
                     )
                     updateDiscoverableState(scanMode)
                 }
+
                 BluetoothDevice.ACTION_BOND_STATE_CHANGED -> {
                     removeEntryForDevice(device)
                     if (device.bondState == BluetoothDevice.BOND_BONDED) {
                         addEntryForDevice(device)
                     }
                 }
+
                 BluetoothDevice.ACTION_CLASS_CHANGED -> {
                     findEntryForDevice(device)?.updateClass()
                 }
+
                 BluetoothDevice.ACTION_NAME_CHANGED -> {
                     findEntryForDevice(device)?.updateName()
                 }

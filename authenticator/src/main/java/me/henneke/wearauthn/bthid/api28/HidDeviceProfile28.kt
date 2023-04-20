@@ -11,7 +11,6 @@ import me.henneke.wearauthn.bthid.HidDeviceProfile
 import me.henneke.wearauthn.bthid.canUseAuthenticatorViaBluetooth
 
 /** Wrapper for BluetoothHidDevice profile that manages paired HID Host devices.  */
-@TargetApi(Build.VERSION_CODES.P)
 class HidDeviceProfile28(bluetoothAdapter: BluetoothAdapter) : HidDeviceProfile(bluetoothAdapter) {
 
     private var service: BluetoothHidDevice? = null

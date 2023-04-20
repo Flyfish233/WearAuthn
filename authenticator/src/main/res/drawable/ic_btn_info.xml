@@ -21,8 +21,8 @@
     <item android:drawable="@drawable/ic_background" />
     <item
         android:bottom="@dimen/button_icon_margin"
+        android:drawable="@drawable/ic_info"
         android:left="@dimen/button_icon_margin"
         android:right="@dimen/button_icon_margin"
-        android:top="@dimen/button_icon_margin"
-        android:drawable="@drawable/ic_info" />
+        android:top="@dimen/button_icon_margin" />
 </layer-list>

@@ -7,8 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import kotlinx.android.synthetic.main.credential_chooser_dialog.*
-import kotlinx.coroutines.*
+import kotlinx.android.synthetic.main.credential_chooser_dialog.credentialList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import me.henneke.wearauthn.R
 import me.henneke.wearauthn.fido.context.WebAuthnCredential
 

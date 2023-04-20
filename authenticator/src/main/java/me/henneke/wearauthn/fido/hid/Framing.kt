@@ -142,9 +142,11 @@ internal class InMessage(packet: Packet.InitPacket) {
     }
 
     override fun toString(): String {
-        return "InMessage(cid=$channelId, cmd=$cmd, totalLength=$totalLength, payload=${Hex.bytesToStringUppercase(
-            _payload
-        )})"
+        return "InMessage(cid=$channelId, cmd=$cmd, totalLength=$totalLength, payload=${
+            Hex.bytesToStringUppercase(
+                _payload
+            )
+        })"
     }
 }
 
@@ -335,6 +337,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                 CtapHidCommand.Ping -> submit(
                     OutMessage.PingResponse(message.channelId, payload).toRawReports()
                 )
+
                 CtapHidCommand.Msg -> {
                     activeU2fConfirmation?.let {
                         // We have an active user confirmation request. If the current message
@@ -354,10 +357,12 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                                         ).toRawReports()
                                     )
                                 }
+
                                 it.confirmationRequest.isCancelled -> {
                                     i { "Confirmation request already cancelled" }
                                     resetU2fContinuation()
                                 }
+
                                 else -> {
                                     val userPresent = it.confirmationRequest.getCompleted()
                                     if (userPresent) {
@@ -436,6 +441,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                         OutMessage.MsgResponse(message.channelId, responsePayload).toRawReports()
                     )
                 }
+
                 CtapHidCommand.Cbor -> {
                     activeCborJob = launch {
                         try {
@@ -445,6 +451,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                                     val status = when (authenticatorContext.status) {
                                         AuthenticatorStatus.IDLE,
                                         AuthenticatorStatus.PROCESSING -> CtapHidStatus.PROCESSING
+
                                         AuthenticatorStatus.WAITING_FOR_UP -> CtapHidStatus.UPNEEDED
                                     }
                                     submit(
@@ -479,6 +486,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                     // Return early since we do not want to reset the transaction yet
                     return true
                 }
+
                 CtapHidCommand.Init -> throw IllegalStateException("Init message should never make it to handleMessage")
                 else -> throw CtapHidException(CtapHidError.InvalidCmd, message.channelId)
             }
@@ -528,6 +536,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                             )
                             return
                         }
+
                         CtapHidCommand.Cancel -> message?.let {
                             if (it.channelId == packet.channelId) {
                                 activeCborJob?.cancel()
@@ -537,6 +546,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                             // Spurious cancels are silently ignored.
                             return
                         }
+
                         else -> {
                             if (packet.channelId == BROADCAST_CHANNEL_ID) {
                                 // Only INIT messages are allowed on the broadcast channel.
@@ -565,6 +575,7 @@ class TransactionManager(private val authenticatorContext: AuthenticatorContext)
                         }
                     }
                 }
+
                 is Packet.ContPacket -> {
                     if (packet.channelId == BROADCAST_CHANNEL_ID) {
                         // Only INIT messages are allowed on the broadcast channel.

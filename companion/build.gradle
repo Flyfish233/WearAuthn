@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 32
-
+namespace 'me.henneke.wearauthn.companion'
 
     defaultConfig {
         applicationId "me.henneke.wearauthn.authenticator"
@@ -38,6 +38,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace 'me.henneke.wearauthn.companion'
 }
 
 dependencies {

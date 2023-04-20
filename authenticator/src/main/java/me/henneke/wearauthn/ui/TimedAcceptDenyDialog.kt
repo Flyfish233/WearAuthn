@@ -26,7 +26,14 @@ import android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP
 import android.os.PowerManager.FULL_WAKE_LOCK
 import android.view.View
 import android.view.ViewTreeObserver
-import kotlinx.android.synthetic.main.timed_accept_deny_dialog.*
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.buttonPanel
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.iconView
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.messageView
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.negativeButton
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.negativeTimeout
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.positiveButton
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.spacer
+import kotlinx.android.synthetic.main.timed_accept_deny_dialog.titleView
 import me.henneke.wearauthn.R
 
 private const val DEFAULT_TIMEOUT = 5_000L
@@ -52,12 +59,14 @@ class TimedAcceptDenyDialog(context: Context) : Dialog(context) {
                     dismiss()
                 }
             }
+
             v == negativeButton || (v == negativeTimeout && timeoutListener == null) -> {
                 negativeButtonListener?.let {
                     it.onClick(this, DialogInterface.BUTTON_NEGATIVE)
                     dismiss()
                 }
             }
+
             v == negativeTimeout -> {
                 timeoutListener?.let {
                     it.onCancel(this)
@@ -78,7 +87,8 @@ class TimedAcceptDenyDialog(context: Context) : Dialog(context) {
         // message by the text rendering engine. This information can only be extracted reliably
         // right before a draw. Since we do not expect the message to change after the dialog is
         // shown, we remove the listener after the text layout has been obtained once.
-        messageView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        messageView.viewTreeObserver.addOnPreDrawListener(object :
+            ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
                 if (messageView.layout != null) {
                     computeMessageLineBreaks()

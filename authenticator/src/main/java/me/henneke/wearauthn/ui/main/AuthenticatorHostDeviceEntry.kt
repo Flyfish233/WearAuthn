@@ -9,7 +9,11 @@ import me.henneke.wearauthn.bthid.HidDeviceProfile
 import me.henneke.wearauthn.bthid.canUseAuthenticatorViaBluetooth
 import me.henneke.wearauthn.ui.BluetoothDevicePreference
 
-class AuthenticatorHostDeviceEntry(context: Context, device: BluetoothDevice, private val hidDeviceProfile: HidDeviceProfile) : BluetoothDevicePreference(context, device) {
+class AuthenticatorHostDeviceEntry(
+    context: Context,
+    device: BluetoothDevice,
+    private val hidDeviceProfile: HidDeviceProfile
+) : BluetoothDevicePreference(context, device) {
 
     init {
         updateProfileConnectionState()
@@ -27,14 +31,17 @@ class AuthenticatorHostDeviceEntry(context: Context, device: BluetoothDevice, pr
                 isEnabled = true
                 summary = null
             }
+
             BluetoothProfile.STATE_CONNECTING -> {
                 isEnabled = false
                 setSummary(R.string.status_bluetooth_connecting)
             }
+
             BluetoothProfile.STATE_CONNECTED -> {
                 isEnabled = true
                 setSummary(R.string.status_bluetooth_connected)
             }
+
             BluetoothProfile.STATE_DISCONNECTING -> {
                 isEnabled = false
                 summary = null

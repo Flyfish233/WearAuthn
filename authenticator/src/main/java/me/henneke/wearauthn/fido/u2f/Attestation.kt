@@ -48,6 +48,7 @@ val U2F_RAW_BATCH_ATTESTATION_CERT = ubyteArrayOf(
     0x64u
 )
     .toByteArray()
+
 @ExperimentalUnsignedTypes
 private val U2F_RAW_BATCH_ATTESTATION_KEY = ubyteArrayOf(
     0x30u, 0x81u, 0x87u, 0x02u, 0x01u, 0x00u, 0x30u, 0x13u, 0x06u, 0x07u, 0x2au, 0x86u, 0x48u,
@@ -67,7 +68,8 @@ private val U2F_RAW_BATCH_ATTESTATION_KEY = ubyteArrayOf(
 @ExperimentalUnsignedTypes
 private val U2F_BATCH_ATTESTATION_KEY by lazy {
     KeyFactory.getInstance("EC").generatePrivate(
-        PKCS8EncodedKeySpec(U2F_RAW_BATCH_ATTESTATION_KEY))
+        PKCS8EncodedKeySpec(U2F_RAW_BATCH_ATTESTATION_KEY)
+    )
 }
 
 @ExperimentalUnsignedTypes
@@ -102,9 +104,13 @@ private val REFERENCE_ATTESTATION_CERT_SIGNATURE_TEMPLATE = ubyteArrayOf(
 fun createU2fSelfAttestationCert(credential: U2FCredential): ByteArray {
     val certBody = REFERENCE_ATTESTATION_CERT_TEMPLATE + credential.u2fPublicKeyRepresentation!!
     val certSignaturePayload = credential.sign(certBody)
-    val certSignaturePrefix = ubyteArrayOf(0x03u, (certSignaturePayload.size + 1).toUByte(), 0x00u).toByteArray()
-    val certSignature = REFERENCE_ATTESTATION_CERT_SIGNATURE_TEMPLATE + certSignaturePrefix + certSignaturePayload
-    val certHeader = ubyteArrayOf(0x30u, 0x82u).toByteArray() + (certBody.size + certSignature.size).toUShort().bytes()
+    val certSignaturePrefix =
+        ubyteArrayOf(0x03u, (certSignaturePayload.size + 1).toUByte(), 0x00u).toByteArray()
+    val certSignature =
+        REFERENCE_ATTESTATION_CERT_SIGNATURE_TEMPLATE + certSignaturePrefix + certSignaturePayload
+    val certHeader =
+        ubyteArrayOf(0x30u, 0x82u).toByteArray() + (certBody.size + certSignature.size).toUShort()
+            .bytes()
     return certHeader + certBody + certSignature
 }
 

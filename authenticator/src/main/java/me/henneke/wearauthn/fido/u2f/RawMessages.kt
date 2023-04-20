@@ -45,17 +45,21 @@ sealed class Request {
                     }
                     command = RequestCommand.REGISTER
                 }
+
                 RequestCommand.AUTHENTICATE.value -> {
                     controlByte = when (apdu.p1) {
                         AuthenticateControlByte.ENFORCE_USER_PRESENCE_AND_SIGN.value -> {
                             AuthenticateControlByte.ENFORCE_USER_PRESENCE_AND_SIGN
                         }
+
                         AuthenticateControlByte.CHECK_ONLY.value -> {
                             AuthenticateControlByte.CHECK_ONLY
                         }
+
                         AuthenticateControlByte.DONT_ENFORCE_USER_PRESENCE_AND_SIGN.value -> {
                             AuthenticateControlByte.DONT_ENFORCE_USER_PRESENCE_AND_SIGN
                         }
+
                         else -> {
                             throw ApduException(StatusWord.INCORRECT_PARAMETERS)
                         }
@@ -65,6 +69,7 @@ sealed class Request {
                     }
                     command = RequestCommand.AUTHENTICATE
                 }
+
                 RequestCommand.VERSION.value -> {
                     if (apdu.p1 != 0x00.toUByte()) {
                         throw ApduException(StatusWord.INCORRECT_PARAMETERS)
@@ -74,6 +79,7 @@ sealed class Request {
                     }
                     command = RequestCommand.VERSION
                 }
+
                 else -> {
                     throw ApduException(StatusWord.INS_NOT_SUPPORTED)
                 }
@@ -95,6 +101,7 @@ sealed class Request {
                     val application = apdu.data.sliceArray(32 until 64).toByteArray()
                     return RegistrationRequest(challenge, application)
                 }
+
                 RequestCommand.AUTHENTICATE -> {
                     if (apdu.le == 0) {
                         throw ApduException(StatusWord.WRONG_LENGTH)
@@ -108,9 +115,11 @@ sealed class Request {
                     }
                     val challenge = apdu.data.sliceArray(0 until 32).toByteArray()
                     val application = apdu.data.sliceArray(32 until 64).toByteArray()
-                    val keyHandle = apdu.data.sliceArray(65 until 65 + keyHandleLength).toByteArray()
+                    val keyHandle =
+                        apdu.data.sliceArray(65 until 65 + keyHandleLength).toByteArray()
                     return AuthenticationRequest(controlByte!!, challenge, application, keyHandle)
                 }
+
                 RequestCommand.VERSION -> {
                     if (apdu.lc != 0) {
                         throw ApduException(StatusWord.WRONG_LENGTH)

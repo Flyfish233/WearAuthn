@@ -28,8 +28,10 @@ val HID_REPORT_DESC = byteArrayOf(
 
 internal const val INIT_PACKET_PAYLOAD_SIZE = HID_REPORT_SIZE - 7
 internal const val CONT_PACKET_PAYLOAD_SIZE = HID_REPORT_SIZE - 5
+
 @ExperimentalUnsignedTypes
-internal val MAX_PAYLOAD_LENGTH = (INIT_PACKET_PAYLOAD_SIZE + 128 * CONT_PACKET_PAYLOAD_SIZE).toUInt()
+internal val MAX_PAYLOAD_LENGTH =
+    (INIT_PACKET_PAYLOAD_SIZE + 128 * CONT_PACKET_PAYLOAD_SIZE).toUInt()
 
 @ExperimentalUnsignedTypes
 internal const val INIT_CMD_NONCE_LENGTH: UShort = 8u
@@ -91,6 +93,9 @@ internal enum class CtapHidError(val code: Byte) {
 @ExperimentalUnsignedTypes
 internal data class CtapHidException(val error: CtapHidError, val channelId: UInt?) : Throwable()
 
-internal val U2F_LEGACY_VERSION_COMMAND_APDU = byteArrayOf(0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
+internal val U2F_LEGACY_VERSION_COMMAND_APDU =
+    byteArrayOf(0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
+
 @ExperimentalUnsignedTypes
-internal val U2F_LEGACY_VERSION_RESPONSE = "U2F_V2".toByteArray() + StatusWord.NO_ERROR.value.toByteArray()
+internal val U2F_LEGACY_VERSION_RESPONSE =
+    "U2F_V2".toByteArray() + StatusWord.NO_ERROR.value.toByteArray()

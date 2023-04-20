@@ -14,14 +14,29 @@ import android.text.TextUtils
 import android.text.format.DateFormat
 import android.view.View
 import com.google.android.gms.common.util.Hex
-import kotlinx.android.synthetic.main.activity_authenticator_attached.*
-import me.henneke.wearauthn.*
-import me.henneke.wearauthn.bthid.*
+import kotlinx.android.synthetic.main.activity_authenticator_attached.connectedToDeviceView
+import kotlinx.android.synthetic.main.activity_authenticator_attached.explanationView
+import kotlinx.android.synthetic.main.activity_authenticator_attached.setupOpenOnPhoneButton
+import kotlinx.android.synthetic.main.activity_authenticator_attached.textClock
+import me.henneke.wearauthn.Logging
+import me.henneke.wearauthn.R
+import me.henneke.wearauthn.bthid.HidDataSender
+import me.henneke.wearauthn.bthid.HidDeviceProfile
+import me.henneke.wearauthn.bthid.HidIntrDataListener
+import me.henneke.wearauthn.bthid.InputHostWrapper
+import me.henneke.wearauthn.bthid.defaultAdapter
+import me.henneke.wearauthn.bthid.identifier
+import me.henneke.wearauthn.bthid.isBluetoothEnabled
 import me.henneke.wearauthn.complication.ShortcutComplicationProviderService
+import me.henneke.wearauthn.d
+import me.henneke.wearauthn.e
 import me.henneke.wearauthn.fido.context.AuthenticatorStatus
 import me.henneke.wearauthn.fido.hid.TransactionManager
+import me.henneke.wearauthn.i
 import me.henneke.wearauthn.ui.openUrlOnPhone
-import java.util.*
+import me.henneke.wearauthn.v
+import me.henneke.wearauthn.w
+import java.util.Date
 
 @ExperimentalUnsignedTypes
 class AuthenticatorAttachedActivity : WearableActivity() {
@@ -58,6 +73,7 @@ class AuthenticatorAttachedActivity : WearableActivity() {
                     i { "Disconnecting; finishing" }
                     finish()
                 }
+
                 BluetoothProfile.STATE_CONNECTING -> {
                     i { "Connecting..." }
                     val connectingToDeviceMessage =
@@ -68,8 +84,9 @@ class AuthenticatorAttachedActivity : WearableActivity() {
                     connectedToDeviceView.text =
                         Html.fromHtml(connectingToDeviceMessage, Html.FROM_HTML_MODE_LEGACY)
                 }
+
                 BluetoothProfile.STATE_CONNECTED -> {
-                    i { "Connected"}
+                    i { "Connected" }
                     val connectedToDeviceMessage =
                         getString(
                             R.string.connected_to_device_message,

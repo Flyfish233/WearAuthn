@@ -6,7 +6,11 @@ import android.os.Handler
 import android.os.VibrationEffect
 import android.widget.Toast
 import com.google.android.gms.common.util.Hex
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
 import me.henneke.wearauthn.Logging
 import me.henneke.wearauthn.R
 import me.henneke.wearauthn.d
@@ -24,7 +28,6 @@ import me.henneke.wearauthn.ui.isDoNotDisturbEnabled
 import me.henneke.wearauthn.ui.showToast
 import me.henneke.wearauthn.ui.vibrator
 import me.henneke.wearauthn.v
-import java.lang.Runnable
 import kotlin.coroutines.CoroutineContext
 import me.henneke.wearauthn.fido.u2f.Authenticator as U2fAuthenticator
 import me.henneke.wearauthn.fido.u2f.Request as U2fRequest
@@ -104,9 +107,11 @@ class NfcAuthenticatorService : HostApduService(), CoroutineScope {
                 handleRequestApdu(apdu)
             } catch (error: ApduException) {
                 d {
-                    "Unable to handle APDU with header ${Hex.bytesToStringUppercase(
-                        rawCommandApdu.asByteArray().sliceArray(0..3)
-                    )}; returned ${error.statusWord}"
+                    "Unable to handle APDU with header ${
+                        Hex.bytesToStringUppercase(
+                            rawCommandApdu.asByteArray().sliceArray(0..3)
+                        )
+                    }; returned ${error.statusWord}"
                 }
                 lastResponseApdu = null
                 error.statusWord.value
@@ -138,6 +143,7 @@ class NfcAuthenticatorService : HostApduService(), CoroutineScope {
                     StatusWord.NO_ERROR
                 )
             }
+
             NFCCTAP_MSG_HEADERS.any { apdu.headerEquals(it) } -> {
                 if (chainedRequestBuffer.size + apdu.data.size > 65536)
                     throw ApduException(StatusWord.WRONG_LENGTH)
@@ -148,6 +154,7 @@ class NfcAuthenticatorService : HostApduService(), CoroutineScope {
                     StatusWord.NO_ERROR
                 )
             }
+
             else -> {
                 // Everything else is either a U2F (CTAP1) request or an error.
                 val u2fRequest = U2fRequest.parse(apdu)
@@ -227,6 +234,7 @@ class NfcAuthenticatorService : HostApduService(), CoroutineScope {
                 RESET -> {
                     onDeactivatedMessage = getString(R.string.reset_via_bluetooth_only)
                 }
+
                 USER_NOT_AUTHENTICATED -> {
                     onDeactivatedMessage = getString(R.string.verify_screen_lock_and_retry)
                     confirmDeviceCredentialOnDeactivated = true

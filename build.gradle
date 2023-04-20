@@ -2,17 +2,28 @@
 
 ext.versionMajor = 0
 ext.versionMinor = 9
-ext.versionPatch = 17
+ext.versionPatch = 18
 
 buildscript {
-    ext.kotlin_version = '1.6.21'
+
+    /*
+    TODO: migrate to View Binding
+    The 'kotlin-android-extensions' Gradle plugin is no longer supported.
+    Please use this migration guide
+    (https://goo.gle/kotlin-android-extensions-deprecation) to start
+    working with View Binding
+    (https://developer.android.com/topic/libraries/view-binding)
+    and the 'kotlin-parcelize' plugin.
+     */
+
+    ext.kotlin_version = '1.7.21'
     repositories {
         google()
         mavenCentral()
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

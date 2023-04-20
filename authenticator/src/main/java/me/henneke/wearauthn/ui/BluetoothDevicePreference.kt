@@ -8,7 +8,8 @@ import me.henneke.wearauthn.R
 import me.henneke.wearauthn.bthid.canUseAuthenticatorViaBluetooth
 import me.henneke.wearauthn.bthid.identifier
 
-open class BluetoothDevicePreference(context: Context, protected val device: BluetoothDevice) : Preference(context) {
+open class BluetoothDevicePreference(context: Context, protected val device: BluetoothDevice) :
+    Preference(context) {
 
     init {
         key = device.address

@@ -17,9 +17,9 @@ private val knownFacets = mapOf(
 )
 
 private val knownDummyRequests: List<ByteArray> = listOf(
-    ByteArray(32) {0}, // Firefox challenge & appId
-    ByteArray(32) {'A'.toByte()}, // Chrome appId
-    ByteArray(32) {'B'.toByte()} // Chrome challenge
+    ByteArray(32) { 0 }, // Firefox challenge & appId
+    ByteArray(32) { 'A'.toByte() }, // Chrome appId
+    ByteArray(32) { 'B'.toByte() } // Chrome challenge
 )
 
 fun resolveAppIdHash(application: ByteArray): String? {

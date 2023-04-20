@@ -10,7 +10,6 @@ import me.henneke.wearauthn.bthid.HidDeviceApp
 private const val TAG = "HidDeviceApp28"
 
 /** Helper class that holds all data about the HID Device's SDP record and wraps data sending.  */
-@TargetApi(Build.VERSION_CODES.P)
 class HidDeviceApp28 : HidDeviceApp() {
 
     /** Callback to receive the HID Device's SDP record state.  */

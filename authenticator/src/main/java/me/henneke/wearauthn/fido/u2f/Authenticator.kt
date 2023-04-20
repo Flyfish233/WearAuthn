@@ -1,10 +1,19 @@
 package me.henneke.wearauthn.fido.u2f
 
-import me.henneke.wearauthn.*
+import me.henneke.wearauthn.Logging
 import me.henneke.wearauthn.fido.ApduException
 import me.henneke.wearauthn.fido.StatusWord
-import me.henneke.wearauthn.fido.context.*
-import me.henneke.wearauthn.fido.u2f.Request.*
+import me.henneke.wearauthn.fido.context.AuthenticatorAction
+import me.henneke.wearauthn.fido.context.AuthenticatorContext
+import me.henneke.wearauthn.fido.context.Credential
+import me.henneke.wearauthn.fido.context.RequestInfo
+import me.henneke.wearauthn.fido.context.U2FCredential
+import me.henneke.wearauthn.fido.u2f.Request.AuthenticationRequest
+import me.henneke.wearauthn.fido.u2f.Request.RegistrationRequest
+import me.henneke.wearauthn.fido.u2f.Request.VersionRequest
+import me.henneke.wearauthn.i
+import me.henneke.wearauthn.v
+import me.henneke.wearauthn.w
 
 @ExperimentalUnsignedTypes
 object Authenticator : Logging {
@@ -17,10 +26,12 @@ object Authenticator : Logging {
                 i { "Register request received" }
                 handleRegisterRequest(context, req)
             }
+
             is AuthenticationRequest -> {
                 i { "Authenticate request received" }
                 handleAuthenticateRequest(context, req)
             }
+
             is VersionRequest -> {
                 i { "Version request received" }
                 handleVersionRequest()
@@ -97,6 +108,7 @@ object Authenticator : Logging {
             AuthenticateControlByte.CHECK_ONLY -> {
                 throw ApduException(StatusWord.CONDITIONS_NOT_SATISFIED)
             }
+
             AuthenticateControlByte.ENFORCE_USER_PRESENCE_AND_SIGN -> {
                 val requestInfo =
                     context.makeU2fRequestInfo(action, req.application)
@@ -109,6 +121,7 @@ object Authenticator : Logging {
                     )
                 }
             }
+
             AuthenticateControlByte.DONT_ENFORCE_USER_PRESENCE_AND_SIGN -> {
                 i { "Processing silent Authenticate request" }
                 Pair(null) {

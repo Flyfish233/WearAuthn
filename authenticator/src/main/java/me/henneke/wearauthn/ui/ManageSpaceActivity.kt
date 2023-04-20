@@ -7,7 +7,13 @@ import android.os.ResultReceiver
 import android.support.wearable.activity.ConfirmationActivity
 import android.support.wearable.view.AcceptDenyDialog
 import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.henneke.wearauthn.R
 import me.henneke.wearauthn.fido.context.AuthenticatorContext
 import kotlin.coroutines.CoroutineContext

@@ -2,7 +2,11 @@ package me.henneke.wearauthn.ui.main
 
 import android.os.Bundle
 import android.support.wearable.preference.WearablePreferenceActivity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
 import me.henneke.wearauthn.fido.context.AuthenticatorContext
 import kotlin.coroutines.CoroutineContext
 

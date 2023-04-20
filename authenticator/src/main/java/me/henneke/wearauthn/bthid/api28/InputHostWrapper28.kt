@@ -8,7 +8,6 @@ import me.henneke.wearauthn.bthid.InputHostWrapper
 import me.henneke.wearauthn.fido.hid.HID_REPORT_DESC
 
 /** Wrapper around the final BluetoothHidDevice class to make it mockable.  */
-@TargetApi(Build.VERSION_CODES.P)
 class InputHostWrapper28(inputHost: BluetoothProfile) : InputHostWrapper {
     private val sdp = BluetoothHidDeviceAppSdpSettings(
         Constants.SDP_NAME,
